@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "game-server"
   gem.homepage = "http://github.com/blimp666/game-server"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: simply game server}
-  gem.description = %Q{TODO: siply general-porpuse game server}
+  gem.summary = %Q{simply game server}
+  gem.description = %Q{siply general-porpuse game server}
   gem.email = "nobody@nowhere.com"
   gem.authors = ["V_M"]
   # dependencies defined in Gemfile
@@ -42,13 +42,13 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
-end
+# require 'rcov/rcovtask'
+# Rcov::RcovTask.new do |test|
+#   test.libs << 'test'
+#   test.pattern = 'test/**/test_*.rb'
+#   test.verbose = true
+#   test.rcov_opts << '--exclude "gems/*"'
+# end
 
 task :default => :test
 
