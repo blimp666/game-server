@@ -15,13 +15,23 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "game-server"
-  gem.homepage = "http://github.com/NONE/game-server"
+  gem.homepage = "http://github.com/blimp666/game-server"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{TODO: simply game server}
+  gem.description = %Q{TODO: siply general-porpuse game server}
   gem.email = "nobody@nowhere.com"
   gem.authors = ["V_M"]
   # dependencies defined in Gemfile
+
+  gem.files.include 'lib/game_server.rb'
+  gem.files.include 'lib/base_listner.rb'
+  gem.files.include 'lib/daemon_logger.rb'
+  gem.files.include 'lib/game_server.rb'
+  gem.files.include 'lib/request_parser.rb'
+  gem.files.include 'lib/request.rb'
+  gem.files.include 'lib/server_error.rb'
+  gem.files.include 'lib/server_starter.rb'
+
 end
 Jeweler::RubygemsDotOrgTasks.new
 
