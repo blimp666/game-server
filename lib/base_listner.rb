@@ -59,7 +59,7 @@ module GameServer::BaseListner
     request = GameServer::RequestParser.new(query_string).parse
     controller = find_controller(request)
     return send_error('unknown_request', request.name) unless controller
-    controller.new(self, request, CombatServer::ObjectSpace.instance).run
+    controller.new(self, request, GameServer::ObjectSpace.instance).run
   rescue GameServer::RequestParser::ParserError
     send_error('bad_syntax')
   rescue GameServer::ServerError => e
