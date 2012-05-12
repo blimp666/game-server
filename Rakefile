@@ -31,7 +31,7 @@ Jeweler::Tasks.new do |gem|
   gem.files.include 'lib/request.rb'
   gem.files.include 'lib/server_error.rb'
   gem.files.include 'lib/server_starter.rb'
-
+  gem.files.include 'lib/object_space.rb'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
