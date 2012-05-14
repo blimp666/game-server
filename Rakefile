@@ -32,6 +32,7 @@ Jeweler::Tasks.new do |gem|
   gem.files.include 'lib/server_error.rb'
   gem.files.include 'lib/server_starter.rb'
   gem.files.include 'lib/object_space.rb'
+  gem.files.include 'lib/game_error.rb'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
