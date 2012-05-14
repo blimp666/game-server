@@ -44,6 +44,13 @@ module GameServer::BaseListner
   end
 
 
+  def critical_error(e)
+    logger.error e
+    logger.error e.backtrace.join("\n")
+    send_error(e.class.to_s.underscore)
+    close_connection_after_writing
+  end
+
   # Обработать входящие данные (может быть несклько строк запросов в одном пакете данных)
   def receive_data(data)
     data.gsub!("\000", "")
@@ -52,6 +59,9 @@ module GameServer::BaseListner
     data.split("\n").each do |query_string|
       process_query(query_string)
     end
+  rescue => e
+    critical_error(e)
+    logger.info "\n\n\n\n\n\nCRITICAL RECEIVE DATA SERVER ERROR"
   end
 
   # Обработать один запрос
@@ -68,10 +78,7 @@ module GameServer::BaseListner
     send_error(e.class.to_s.underscore)
   rescue => e
     logger.info "\n\n\n\n\n\nCRITICAL SERVER ERROR"
-    logger.error e
-    logger.error e.backtrace.join("\n")
-    send_error(e.class.to_s.underscore)
-    close_connection_after_writing
+    critical_error(e)
   end
 
 
