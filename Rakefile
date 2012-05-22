@@ -26,13 +26,13 @@ Jeweler::Tasks.new do |gem|
   gem.files.include 'lib/game_server.rb'
   gem.files.include 'lib/base_listner.rb'
   gem.files.include 'lib/daemon_logger.rb'
-  gem.files.include 'lib/game_server.rb'
   gem.files.include 'lib/request_parser.rb'
   gem.files.include 'lib/request.rb'
   gem.files.include 'lib/server_error.rb'
   gem.files.include 'lib/server_starter.rb'
   gem.files.include 'lib/object_space.rb'
   gem.files.include 'lib/game_error.rb'
+  gem.files.include 'lib/client.rb'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
