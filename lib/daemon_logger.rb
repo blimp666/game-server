@@ -5,7 +5,7 @@ module DaemonLogger
     file.sync = true
     @logger = Logger.new(file)
     @logger.level = Logger::DEBUG
-    @logger.formatter = Formatter.new
+    @logger.formatter = Logger::Formatter.new
     @logger.datetime_format = "%y-%m-%d %H:%M:%S.%L"
   end
 
