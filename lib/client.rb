@@ -10,6 +10,7 @@ module GameServer::Client
   end
 
   def send_line(string)
+    logger.info "send_line #{string}\n"
     send_data(string + "\n")
   end
 
