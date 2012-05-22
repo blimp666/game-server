@@ -48,7 +48,7 @@ module GameServer::BaseListner
     logger.error e
     logger.error e.backtrace.join("\n")
     send_error(e.class.to_s.underscore)
-    close_connection_after_writing
+#    close_connection_after_writing
   end
 
   # Обработать входящие данные (может быть несклько строк запросов в одном пакете данных)
