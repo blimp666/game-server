@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "game-server"
-  s.version = "0.2.4"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["V_M"]
-  s.date = "2012-05-14"
+  s.date = "2012-05-22"
   s.description = "siply general-porpuse game server"
   s.email = "nobody@nowhere.com"
   s.extra_rdoc_files = [
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "game-server.gemspec",
     "lib/base_listner.rb",
+    "lib/client.rb",
     "lib/daemon_logger.rb",
     "lib/game_error.rb",
     "lib/game_server.rb",
