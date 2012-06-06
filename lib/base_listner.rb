@@ -26,7 +26,9 @@ module GameServer::BaseListner
     send_data(string + "\000\n" )
   end
 
-
+  def connection_info
+    "CONNECTION"
+  end
 
 
   def send_json(object)
@@ -39,7 +41,7 @@ module GameServer::BaseListner
   end
 
   def send_data(data)
-    logger.info "Data sended: " + data#.inspect
+    logger.info "Data sended to #{connection_info}: " + data#.inspect
     super(data)
   end
 
@@ -54,7 +56,7 @@ module GameServer::BaseListner
   # Обработать входящие данные (может быть несклько строк запросов в одном пакете данных)
   def receive_data(data)
     data.gsub!("\000", "")
-    logger.info "Received: " + data.inspect
+    logger.info "Received from #{connection_info}: " + data.inspect
     return if policy_file_request(data)
     data.split("\n").each do |query_string|
       process_query(query_string)
