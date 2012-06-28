@@ -1,5 +1,5 @@
 module GameServer::Client
-
+  include DaemonLogger::Mixins
 
   def receive_request(request)
     find_controller(request.name).new(self, request).run
