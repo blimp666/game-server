@@ -4,13 +4,11 @@ module GameServer::Client
   def receive_request(request)
     find_controller(request.name).new(self, request).run
   rescue Exception => e
-    logger.info "\n\n\n\n\n\nCRITICAL SERVER ERROR"
-    logger.error e
-    logger.error e.backtrace.join("\n")
+    log_exception e
   end
 
   def send_line(string)
-    logger.info "send_line #{string}\n"
+    log "send_line #{string}\n"
     send_data(string + "\n")
   end
 
