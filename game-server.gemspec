@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "game-server"
-  s.version = "0.3.3"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["V_M"]
-  s.date = "2012-06-06"
+  s.date = "2012-06-28"
   s.description = "siply general-porpuse game server"
   s.email = "nobody@nowhere.com"
   s.extra_rdoc_files = [
@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/blimp666/game-server"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.16"
+  s.rubygems_version = "1.8.15"
   s.summary = "simply game server"
 
   if s.respond_to? :specification_version then
