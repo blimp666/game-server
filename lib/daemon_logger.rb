@@ -1,6 +1,11 @@
+require 'net/smtp'
+require 'singleton'
+require 'logger'
+
 class DaemonLogger
   include Singleton
   attr_writer :logger
+  attr_accessor :email_receivers, :smtp_server
   
   class NullLogger
     def method_missing(*args, &block)
@@ -9,6 +14,10 @@ class DaemonLogger
   end
   
   
+  # ==== Params
+  # params<Hash>::
+  # log_file_path<String>:: куда будет писаться лог
+  # email_receivers<Array[String]>:: список получателей сообщений о критических ошибках
   def init(params)
     raise TypeError.new(":log_file_path required") unless params[:log_file_path]
     file = File.open(params[:log_file_path], 'a')
@@ -17,6 +26,8 @@ class DaemonLogger
     logger.level = Logger::DEBUG
     logger.formatter = Logger::Formatter.new
     logger.datetime_format = "%y-%m-%d %H:%M:%S.%L"
+    self.email_receivers = params[:email_receivers].to_a
+    self.smtp_server = params[:smtp_server] || 'localhost'
   end
   
   def self.init(*params)
@@ -32,8 +43,19 @@ class DaemonLogger
     end
   end
   
+  def send_emails_to_receivers(message)
+    return if !email_receivers or email_receivers.empty?
+    Net::SMTP.start(smtp_server) do |smtp|
+      smtp.send_message message, 'daemon.exceptions@skyburg.com', email_receivers
+    end
+  rescue => e
+    log_exception(e, false, "SENDING EXCEPTION EMAIL ERROR")
+  end
+  
+  
   module Mixins
     
+    # FIXME:: DOCUMENTATION
     def log(message, log_type = :info)
       puts "#{Time.now} #{log_type} #{message}"
       DaemonLogger.instance.logger.send(log_type, message)
@@ -47,9 +69,10 @@ Exception was raised #{exception}
 BACKTRACE:
 #{exception.backtrace.join("\n")}
 EOF
-      puts "SENDING MAIL" if send_mail
+      DaemonLogger.instance.send_emails_to_receivers(message) if send_mail
       log(message, :error)
     end
+    
     
     def with_exception_logging
       yield
@@ -61,4 +84,5 @@ EOF
     
   end
 
+  include Mixins
 end
