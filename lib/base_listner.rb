@@ -2,8 +2,14 @@
 require File.dirname(__FILE__) + '/daemon_logger'
 # Базовый модуль для прослушивания JSON запросов от клиента
 module GameServer::BaseListner
+  MAX_INPUT_BUFFER_SIZE = 128 * 1024
 
   include DaemonLogger::Mixins
+  
+  def initialize(*args)
+    super(*args)
+    self.input_buffer = ""
+  end
 
   def find_controller(request)
     return unless request.name =~ /^[A-Za-z_]+$/
@@ -48,12 +54,29 @@ module GameServer::BaseListner
 #    close_connection_after_writing
   end
 
+
+  # В этом буфере хранится начало сообщения от клиента, если оно вдруг разбилось на несколько кусоков данных
+  attr_accessor :input_buffer
+
   # Обработать входящие данные (может быть несклько строк запросов в одном пакете данных)
   def receive_data(data)
     data.gsub!("\000", "")
-    log "Received from #{connection_info}: " + data.inspect
-    return if policy_file_request(data)
-    data.split("\n").each do |query_string|
+
+    complete_message = input_buffer + data
+    if complete_message[-1] != "\n"
+      self.input_buffer = complete_message
+      if input_buffer.size >= MAX_INPUT_BUFFER_SIZE
+        self.input_buffer.clear
+        raise "OVERFLOW OF INPUT BUFFER #{input_buffer.size}"
+      end
+      return
+    else
+      input_buffer.clear
+    end
+
+    log "Received from #{connection_info} (size #{complete_message.size}): " + complete_message.inspect
+    return if policy_file_request(complete_message)
+    complete_message.split("\n").each do |query_string|
       process_query(query_string)
     end
   rescue => e
