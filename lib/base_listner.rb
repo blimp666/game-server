@@ -2,10 +2,15 @@
 require File.dirname(__FILE__) + '/daemon_logger'
 # Базовый модуль для прослушивания JSON запросов от клиента
 module GameServer::BaseListner
+
+  # семафор (mutex) для доступа к коннекшену. должен устанавливаться в приложении connection.semaphore = Mutex.new
+  # если не установлен - то не используется
+  attr_accessor :semaphore
+
   MAX_INPUT_BUFFER_SIZE = 128 * 1024
 
   include DaemonLogger::Mixins
-  
+
   def initialize(*args)
     super(*args)
     self.input_buffer = ""
@@ -44,7 +49,12 @@ module GameServer::BaseListner
 
   def send_data(data)
     log "Data sended to #{connection_info}: " + data#.inspect
-    super(data)
+
+    if semaphore
+      semaphore.synchronize { super(data) }
+    else
+      super(data)
+    end
   end
 
 
