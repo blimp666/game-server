@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "game-server"
-  s.version = "0.4.3"
+  s.version = "0.4.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["V_M"]
-  s.date = "2012-09-10"
+  s.date = "2012-12-25"
   s.description = "siply general-porpuse game server"
   s.email = "nobody@nowhere.com"
   s.extra_rdoc_files = [
