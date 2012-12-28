@@ -65,13 +65,13 @@ class DaemonLogger
 
     def log_exception(exception, send_mail = true, additional_info = "")
 
-#       message = <<"EOF"
-# Exception was raised #{exception}
-# #{additional_info}
+      message = <<"EOF"
+Exception was raised #{exception}
+#{additional_info}
+BACKTRACE:
+#{exception.backtrace.join("\n")}
+EOF
 
-# BACKTRACE:
-# #{exception.backtrace.join("\n")}
-# EOF
 #       DaemonLogger.instance.send_emails_to_receivers(message) if send_mail
       log(message, :error)
       ExceptionNotifier::Notifier.background_exception_notification(e).deliver
