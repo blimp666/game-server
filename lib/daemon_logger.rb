@@ -74,7 +74,7 @@ EOF
 
 #       DaemonLogger.instance.send_emails_to_receivers(message) if send_mail
       log(message, :error)
-      ExceptionNotifier::Notifier.background_exception_notification(e).deliver
+      ExceptionNotifier::Notifier.background_exception_notification(exception).deliver
     end
 
 
