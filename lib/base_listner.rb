@@ -104,7 +104,7 @@ module GameServer::BaseListner
   rescue GameServer::ServerError => e
     send_error("server_error", "#{e.name} #{!(e.comment.empty?) ? ':' + e.comment : ''}")
   rescue GameError => e
-    send_error(e.class.to_s.underscore)
+    send_error(e.class.to_s.underscore, e.message)
   rescue => e
     critical_error(e)
   end
