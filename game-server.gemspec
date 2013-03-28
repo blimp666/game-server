@@ -41,11 +41,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/blimp666/game-server"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "2.0.0"
+  s.rubygems_version = "1.8.25"
   s.summary = "simply game server"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 4
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<exception_notification>, [">= 3.0.0"])
