@@ -60,7 +60,7 @@ class DaemonLogger
     # FIXME:: DOCUMENTATION
     def log(message, log_type = :info)
       puts "#{Time.now} #{log_type} #{message}"
-      DaemonLogger.instance.logger.send(log_type, message)
+      Thread.new{ DaemonLogger.instance.logger.send(log_type, message) }
     end
 
     def log_exception(exception, send_mail = true, additional_info = "")
