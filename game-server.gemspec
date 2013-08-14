@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "game-server"
-  s.version = "0.4.8"
+  s.version = "0.4.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["V_M"]
-  s.date = "2013-03-28"
+  s.date = "2013-08-14"
   s.description = "siply general-porpuse game server"
   s.email = "nobody@nowhere.com"
   s.extra_rdoc_files = [
@@ -41,11 +41,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/blimp666/game-server"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.25"
+  s.rubygems_version = "2.0.3"
   s.summary = "simply game server"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<exception_notification>, [">= 3.0.0"])
