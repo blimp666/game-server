@@ -18,9 +18,9 @@ module GameServer::BaseListner
 
   def find_controller(request)
     return unless request.name =~ /^[A-Za-z_]+$/
-    x = (controllers_classes_root + "::" + request.name.camelize)
-    log x
-    x.constantize
+    controller_name = (controllers_classes_root + "::" + request.name.camelize)
+    log controller_name
+    controller_name.constantize
   rescue NameError
     return
   end
@@ -87,7 +87,9 @@ module GameServer::BaseListner
     log "Received from #{connection_info} (size #{complete_message.size}): " + complete_message.inspect
     return if policy_file_request(complete_message)
     complete_message.split("\n").each do |query_string|
-      process_query(query_string)
+      operation = proc { process_query(query_string) }
+      callback = proc { nil }
+      EventMachine.defer(operation, callback)
     end
   rescue => e
     critical_error(e)
