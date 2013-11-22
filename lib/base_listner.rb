@@ -3,9 +3,10 @@ require File.dirname(__FILE__) + '/daemon_logger'
 # Базовый модуль для прослушивания JSON запросов от клиента
 module GameServer::BaseListner
 
-  # семафор (mutex) для доступа к коннекшену. должен устанавливаться в приложении connection.semaphore = Mutex.new
-  # если не установлен - то не используется
-  attr_accessor :semaphore
+  # send_data_semaphore -семафор (mutex) для доступа к коннекшену. если не установлен - то не используется.
+  # может устанавливаться в приложении connection.send_data_semaphore = Mutex.new
+  # process_semaphore - семафор для обработки
+  attr_accessor :send_data_semaphore, :process_semaphore
 
   MAX_INPUT_BUFFER_SIZE = 128 * 1024
 
@@ -14,6 +15,7 @@ module GameServer::BaseListner
   def initialize(*args)
     super(*args)
     self.input_buffer = ""
+    self.process_semaphore = Mutex.new
   end
 
   def find_controller(request)
@@ -87,7 +89,7 @@ module GameServer::BaseListner
     log "Received from #{connection_info} (size #{complete_message.size}): " + complete_message.inspect
     return if policy_file_request(complete_message)
     complete_message.split("\n").each do |query_string|
-      operation = proc { process_query(query_string) }
+      operation = proc { process_semaphore.synchronize{ process_query(query_string) } }
       callback = proc { nil }
       EventMachine.defer(operation, callback)
     end
