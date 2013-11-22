@@ -52,8 +52,8 @@ module GameServer::BaseListner
   def send_data(data)
     log "Data sended to #{connection_info}: " + data#.inspect
 
-    if semaphore
-      semaphore.synchronize { super(data) }
+    if send_data_semaphore
+      send_data_semaphore.synchronize { super(data) }
     else
       super(data)
     end
