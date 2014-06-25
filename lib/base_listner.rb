@@ -88,13 +88,17 @@ module GameServer::BaseListner
 
     log "Received from #{connection_info} (size #{complete_message.size}): " + complete_message.inspect
     return if policy_file_request(complete_message)
-    complete_message.split("\n").each do |query_string|
-      operation = proc { process_semaphore.synchronize{ process_query(query_string) } }
-      callback = proc { nil }
-      EventMachine.defer(operation, callback)
-    end
+    operation = proc { process_whole_message(complete_message) }
+    callback = proc { nil }
+    EventMachine.defer(operation, callback)
   rescue => e
     critical_error(e)
+  end
+
+  def process_whole_message(message)
+    message.split("\n").each do |query_string|
+      process_semaphore.synchronize{ process_query(query_string) }
+    end
   end
 
   # Обработать один запрос
